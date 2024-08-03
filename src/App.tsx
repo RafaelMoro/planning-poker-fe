@@ -1,10 +1,11 @@
 import './App.css'
+import { JoinButton } from './components/JoinButton'
 
 function App() {
   return (
     <>
       <main className='main'>
-        <button>Create session</button>
+        <JoinButton />
       </main>
     </>
   )
