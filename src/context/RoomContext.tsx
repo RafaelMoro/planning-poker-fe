@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useEffect } from "react";
 import socketIO from 'socket.io-client'
+import { ROOM_CREATED_SOCKET } from "../constants";
 
 const WS = 'http://localhost:8080'
 interface RoomContextType {
@@ -11,10 +12,10 @@ const ws = socketIO(WS)
 
 const RoomProvider = ({ children }: { children: ReactNode }) => {
   const enterRoom = ({ roomId }: { roomId: string }) => {
-    console.log('room-created', roomId)
+    console.log('room created =>', roomId)
   }
   useEffect(() => {
-    ws.on('room-created', enterRoom)
+    ws.on(ROOM_CREATED_SOCKET, enterRoom)
   }, [])
 
   return (
