@@ -1,4 +1,5 @@
 import './App.css'
+import { CreateRoomButton } from './components/CreateRoomButton'
 import { JoinButton } from './components/JoinButton'
 
 function App() {
@@ -6,6 +7,7 @@ function App() {
     <>
       <main className='main'>
         <JoinButton />
+        <CreateRoomButton />
       </main>
     </>
   )
