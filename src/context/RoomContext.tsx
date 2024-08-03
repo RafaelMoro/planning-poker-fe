@@ -13,9 +13,11 @@ const ws = socketIO(WS)
 
 const RoomProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate()
-  const enterRoom = ({ roomId }: { roomId: string }) => {
-    navigate(`/room/${roomId}`)
+
+  const enterRoom = ({ roomId, user }: { roomId: string, user: string }) => {
+    navigate(`/room/${roomId}`, { state: { user } })
   }
+
   useEffect(() => {
     ws.on(ROOM_CREATED_SOCKET, enterRoom)
   // eslint-disable-next-line react-hooks/exhaustive-deps

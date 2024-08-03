@@ -1,5 +1,5 @@
-import { CreateRoom } from "../templates/CreateRoom"
 import { JoinButton } from "../components/JoinButton"
+import { CreateRoom } from "../templates/CreateRoom"
 
 const Home = () => {
   return (

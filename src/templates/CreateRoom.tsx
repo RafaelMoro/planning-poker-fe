@@ -2,15 +2,15 @@ import { useState } from "react"
 import { CreateRoomButton } from "../components/CreateRoomButton"
 
 const CreateRoom = () => {
-  const [roomName, setRoomName] = useState('')
-  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRoomName(event.target.value)
+  const [name, setName] = useState('')
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value)
   }
 
   return (
     <form action="submit">
-      <input onChange={handleOnChange} type="text" placeholder="Room name" />
-      <CreateRoomButton roomName={roomName} />
+      <input onChange={handleChange} type="text" placeholder="Your name" />
+      <CreateRoomButton userName={name} />
     </form>
   )
 }
