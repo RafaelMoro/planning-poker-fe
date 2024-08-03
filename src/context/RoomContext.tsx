@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useEffect } from "react";
 import socketIO from 'socket.io-client'
 import { ROOM_CREATED_SOCKET } from "../constants";
+import { useNavigate } from "react-router-dom";
 
 const WS = 'http://localhost:8080'
 interface RoomContextType {
@@ -11,11 +12,13 @@ const RoomContext = createContext<RoomContextType>({ ws: null })
 const ws = socketIO(WS)
 
 const RoomProvider = ({ children }: { children: ReactNode }) => {
+  const navigate = useNavigate()
   const enterRoom = ({ roomId }: { roomId: string }) => {
-    console.log('room created =>', roomId)
+    navigate(`/room/${roomId}`)
   }
   useEffect(() => {
     ws.on(ROOM_CREATED_SOCKET, enterRoom)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
