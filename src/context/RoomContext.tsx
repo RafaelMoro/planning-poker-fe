@@ -2,6 +2,7 @@ import { createContext, ReactNode, useEffect } from "react";
 import socketIO from 'socket.io-client'
 import { ROOM_CREATED_SOCKET } from "../constants";
 import { useNavigate } from "react-router-dom";
+import { User } from "../interface";
 
 const WS = 'http://localhost:8080'
 interface RoomContextType {
@@ -14,8 +15,8 @@ const ws = socketIO(WS)
 const RoomProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate()
 
-  const enterRoom = ({ roomId, user }: { roomId: string, user: string }) => {
-    navigate(`/room/${roomId}`, { state: { user } })
+  const enterRoom = ({ roomId, newUser }: { roomId: string, newUser: User }) => {
+    navigate(`/room/${roomId}`, { state: { newUser } })
   }
 
   useEffect(() => {
