@@ -1,12 +1,8 @@
-import { CreateRoom } from "../templates/CreateRoom"
-import { JoinRoom } from "../templates/JoinRoom"
-
 const Home = () => {
   return (
-    <>
-      <CreateRoom />
-      <JoinRoom />
-    </>
+    <div>
+      <h1>Hi</h1>
+    </div>
   )
 }
 
