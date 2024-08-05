@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { socket } from "../socket"
+import { SALUTE_EVENT } from "../constants"
 
 const SendSalute = () => {
   const [message, setMessage] = useState('')
@@ -12,7 +13,7 @@ const SendSalute = () => {
   function handleOnSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setIsLoading(true)
-    socket.timeout(1000).emit('salute', message, () => {
+    socket.timeout(1000).emit(SALUTE_EVENT, message, () => {
       setIsLoading(false)
     })
   }
