@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { socket } from "../socket"
 import { ConnectionState } from "../components/ConnectionState"
 import { Salutes } from "../components/Salutes"
+import { ConnectionManager } from "../components/ConnectionManager"
 
 const Home = () => {
   const [isConnected, setIsConnected] = useState(false)
@@ -34,6 +35,7 @@ const Home = () => {
     <div>
       <ConnectionState isConnected={isConnected} />
       <Salutes salutes={salutes} />
+      <ConnectionManager />
     </div>
   )
 }
