@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react"
 import { socket } from "../socket"
 import { ConnectionState } from "../components/ConnectionState"
-import { Salutes } from "../components/Salutes"
-import { ConnectionManager } from "../components/ConnectionManager"
 import { SendSalute } from "../components/SendSalute"
 import { MESSAGES_EVENT } from "../constants"
+import { CreateRoom } from "../templates/CreateRoom"
 
 const Home = () => {
   const [isConnected, setIsConnected] = useState(false)
@@ -47,8 +46,7 @@ const Home = () => {
   return (
     <div>
       <ConnectionState isConnected={isConnected} />
-      <Salutes salutes={messages} />
-      <ConnectionManager />
+      <CreateRoom />
       <SendSalute />
     </div>
   )
