@@ -1,11 +1,13 @@
-import { useState } from "react"
-import { useLocation } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { useLocation, useParams } from "react-router-dom"
 import { JoinRoom } from "../templates/JoinRoom"
 import { User } from "../interface"
 import { UserCard } from "../components/UserCard"
+import { socket } from "../socket"
 
 const Room = () => {
   const location = useLocation()
+  const { roomId } = useParams()
   const locationUser = location.state?.newUser
   const [currentUser, setCurrentUser] = useState(locationUser ?? '')
   const [users, setUsers] = useState<User[]>(locationUser ? [{ userName: locationUser, message: '' }] : [])
@@ -13,11 +15,26 @@ const Room = () => {
     setCurrentUser(userName)
   }
 
+  useEffect(() => {
+    const handleJoinRoom = (newUser: User) => {
+      setUsers((prevUsers) => [...prevUsers, newUser])
+    }
+
+    if (roomId) {
+      socket.on(roomId, handleJoinRoom)
+    }
+
+    return () => {
+      socket.off(roomId, handleJoinRoom)
+    }
+  }, [roomId])
+
   if (!currentUser) {
     return (
       <JoinRoom getNewUser={getNewUser} />
     )
   }
+
   return (
     <div>
       <h1>Welcome {currentUser}</h1>
