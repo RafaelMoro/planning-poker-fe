@@ -21,7 +21,7 @@ function App() {
     }
 
     function handleRoomCreated({ roomId, newUser }: { roomId: string, newUser: User }) {
-      navigate(`room/${roomId}`, { state: { newUser } })
+      navigate(`room/${roomId}`, { state: { newUser: newUser.userName } })
     }
 
     socket.on(CONNECT_EVENT, onConnect)
