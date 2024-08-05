@@ -16,7 +16,7 @@ const Room = () => {
   }
 
   useEffect(() => {
-    const handleJoinRoom = (newUser: User) => {
+    const handleJoinRoom = ({ newUser }: { newUser: User }) => {
       setUsers((prevUsers) => [...prevUsers, newUser])
     }
 
