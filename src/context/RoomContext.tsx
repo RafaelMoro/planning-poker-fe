@@ -18,9 +18,14 @@ const RoomProvider = ({ children }: { children: ReactNode }) => {
   const enterRoom = ({ roomId, newUser }: { roomId: string, newUser: User }) => {
     navigate(`/room/${roomId}`, { state: { newUser } })
   }
+  const hearMessages = ({ user }: { user: User }) => {
+    console.log('Message received from:', user.userName)
+    console.log('Message:', user.message)
+  }
 
   useEffect(() => {
     ws.on(ROOM_CREATED_SOCKET, enterRoom)
+    ws.on('123-456-receive', hearMessages)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

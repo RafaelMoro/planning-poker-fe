@@ -1,41 +1,37 @@
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { RoomContext } from "../context/RoomContext";
-import { User } from "../interface";
+// import { User } from "../interface";
+import { RECEIVE_MESSAGE_EVENT, SEND_MESSAGE_EVENT } from "../constants";
 
 const Room = () => {
   const location = useLocation()
-  console.log(location.state)
   const currentUser = useMemo(() => location?.state?.newUser?.userName ?? '', [location])
-  const [message, setMessage] = useState('') 
-  console.log('currentUser', currentUser)
+  const [messageUser, setMessageUser] = useState({
+    user: '',
+    message: ''
+  })
   const { ws } = useContext(RoomContext)
   const { roomId } = useParams()
 
-  const handleChangeMessage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setMessage(event.target.value)
-  }
-
-  const handleMessage = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSendMessage = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
     if (ws && roomId) {
-      console.log('here')
-      ws.emit(roomId, { user: { userName: currentUser, message: message } })
+      ws.emit(SEND_MESSAGE_EVENT, { user: currentUser, message: 'hola' })
     }
   }
 
-  const handleReceiveMessage = ({ user }: { user: User }) => {
-    console.log('hi')
-    console.log('Message received from:', user.userName)
-    console.log('Message:', user.message)
+  const handleReceiveMessage = ({ user, message }: { user: string, message: string }) => {
+    console.log({ user, message })
+    setMessageUser({ user, message })
   }
 
   useEffect(() => {
-    if (ws && roomId) {
-      console.log('listening', roomId)
-      ws.on(roomId, handleReceiveMessage)
+    if (ws) {
+      console.log('here')
+      ws.on(RECEIVE_MESSAGE_EVENT, handleReceiveMessage)
     }
-  }, [roomId, ws])
+  }, [ws])
 
   return (
     <main>
@@ -45,9 +41,14 @@ const Room = () => {
       {/* <p>Join room Id: {`${window.origin}${location.pathname}`}</p> */}
       <p>Join Room Id: {roomId}</p>
       <form>
-        <input onChange={handleChangeMessage} type="text" placeholder="Message" />
-        <button onClick={handleMessage}>Send Message</button>
+        <button onClick={handleSendMessage}>Send Message</button>
       </form>
+      { (messageUser.user) && (
+        <div>
+          <p>Message received from: {messageUser.user}</p>
+          <p>Message: {messageUser.message}</p>
+        </div>
+      )}
     </main>
   )
 }
