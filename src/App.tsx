@@ -8,7 +8,7 @@ import { User } from './interface'
 import { Room } from './pages/Room'
 
 function App() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [isConnected, setIsConnected] = useState(false)
 
   useEffect(() => {
