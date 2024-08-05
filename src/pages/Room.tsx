@@ -16,21 +16,21 @@ const Room = () => {
     setCurrentUser(userName)
   }
 
-  const handleGetUsers = () => {
-    socket.emit(GET_USERS_ROOM, { roomId })
-  }
-
   useEffect(() => {
     const handleJoinRoom = ({ newUser }: { newUser?: User}) => {
       if (newUser) {
         const newUsers = [...users, newUser]
-        socket.emit(GET_USERS_ROOM, { roomId, users: newUsers })
+        // Update the rest of the users all the users that have joined
+        socket.emit(GET_USERS_ROOM, { roomId, allUsers: newUsers })
         setUsers(newUsers)
       }
     }
 
-    const handleGetUsers = (props: unknown) => {
-      console.log('props', props)
+    // It's the response of the emit of GET_USERS_ROOM
+    const handleGetUsers = ({ allUsers }: { allUsers: User[] }) => {
+      if (users.length === 0) {
+        setUsers(allUsers)
+      }
     }
 
     if (roomId) {
@@ -61,7 +61,6 @@ const Room = () => {
           ))}
         </>
       )}
-      <button onClick={handleGetUsers}>Get users</button>
     </div>
   )
 }
