@@ -4,6 +4,7 @@ import { JoinRoom } from "../templates/JoinRoom"
 import { User } from "../interface"
 import { UserCard } from "../components/UserCard"
 import { socket } from "../socket"
+import { GET_USERS_ROOM, USERS_EVENT } from "../constants"
 
 const Room = () => {
   const location = useLocation()
@@ -15,19 +16,33 @@ const Room = () => {
     setCurrentUser(userName)
   }
 
+  const handleGetUsers = () => {
+    socket.emit(GET_USERS_ROOM, { roomId })
+  }
+
   useEffect(() => {
-    const handleJoinRoom = ({ newUser }: { newUser: User }) => {
-      setUsers((prevUsers) => [...prevUsers, newUser])
+    const handleJoinRoom = ({ newUser }: { newUser?: User}) => {
+      if (newUser) {
+        const newUsers = [...users, newUser]
+        socket.emit(GET_USERS_ROOM, { roomId, users: newUsers })
+        setUsers(newUsers)
+      }
+    }
+
+    const handleGetUsers = (props: unknown) => {
+      console.log('props', props)
     }
 
     if (roomId) {
       socket.on(roomId, handleJoinRoom)
+      socket.on(USERS_EVENT, handleGetUsers)
     }
 
     return () => {
       socket.off(roomId, handleJoinRoom)
+      socket.off(USERS_EVENT, handleGetUsers)
     }
-  }, [roomId])
+  }, [roomId, users])
 
   if (!currentUser) {
     return (
@@ -46,6 +61,7 @@ const Room = () => {
           ))}
         </>
       )}
+      <button onClick={handleGetUsers}>Get users</button>
     </div>
   )
 }
