@@ -13,7 +13,7 @@ const SendSalute = () => {
   function handleOnSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setIsLoading(true)
-    socket.timeout(1000).emit(SALUTE_EVENT, message, () => {
+    socket.emit(SALUTE_EVENT, message, () => {
       setIsLoading(false)
     })
   }

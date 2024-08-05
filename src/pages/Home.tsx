@@ -9,7 +9,6 @@ import { MESSAGES_EVENT } from "../constants"
 const Home = () => {
   const [isConnected, setIsConnected] = useState(false)
   const [messages, setMessages] = useState<string[]>([])
-  console.log(messages)
 
   useEffect(() => {
     function onConnect() {
@@ -21,6 +20,7 @@ const Home = () => {
     }
 
     function onMessage(message: string) {
+      console.log('new message', message)
       const allMessages = [...messages]
       allMessages.push(message)
       setMessages(allMessages)
