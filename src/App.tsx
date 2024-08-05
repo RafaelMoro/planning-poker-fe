@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { socket } from './socket'
 import { CONNECT_EVENT, DISCONNECT_EVENT, ROOM_CREATED_SOCKET } from './constants'
 import { User } from './interface'
+import { Room } from './pages/Room'
 
 function App() {
   const navigate = useNavigate()
@@ -46,6 +47,7 @@ function App() {
       <main className='main'>
         <Routes>
           <Route path='/' element={<Home isConnected={isConnected} />} />
+          <Route path='/room/:roomId' element={<Room />} />
         </Routes>
       </main>
     </>
