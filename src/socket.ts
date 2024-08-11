@@ -1,4 +1,4 @@
 import { io } from "socket.io-client"
 
-const URL = 'http://localhost:8080'
+const URL = 'https://planning-poker-signaling-server.onrender.com'
 export const socket = io(URL)
