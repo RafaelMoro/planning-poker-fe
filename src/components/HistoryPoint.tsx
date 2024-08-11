@@ -1,14 +1,18 @@
-import { useState } from "react"
+interface HistoryPointProps {
+  number: string;
+  isActive?: boolean;
+  handleCardClick: (cardValue: string) => void;
+}
 
-const HistoryPoint = ({ number, isActive }: { number: string, isActive?: boolean }) => {
-  const [active, setActive] = useState(false)
-  const cssClasses = active 
+const HistoryPoint = ({ number, isActive, handleCardClick }: HistoryPointProps) => {
+  const cssClasses = isActive 
     ? 'h-28 w-28 flex items-center justify-center gap-4 bg-black text-white rounded-xl border border-white border-solid'
     : 'h-28 w-28 flex items-center justify-center gap-4 bg-white text-black rounded-xl'
 
-  const handleClick = () => {
-    setActive((prevState) => !prevState)
-  }
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+      event.preventDefault()
+      handleCardClick(number)
+    }
   
   return (
     <button onClick={handleClick} className={cssClasses}>

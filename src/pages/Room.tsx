@@ -2,8 +2,8 @@ import { useEffect, useState } from "react"
 import { useLocation, useParams } from "react-router-dom"
 
 import { socket } from "../socket"
-import { User } from "../interface"
-import { CARDS_VALUES, GET_USERS_ROOM, USERS_EVENT } from "../constants"
+import { CardFibonacci, User } from "../interface"
+import { CARDS_FIBONACCI_VALUES, GET_USERS_ROOM, USERS_EVENT } from "../constants"
 import { JoinRoom } from "../templates/JoinRoom"
 import { UserCard } from "../components/UserCard"
 import { HistoryPoint } from "../components/HistoryPoint"
@@ -13,9 +13,14 @@ const Room = () => {
   const { roomId } = useParams()
   const locationUser = location.state?.newUser
   const [currentUser, setCurrentUser] = useState(locationUser ?? '')
+  const [cards, setCards] = useState<CardFibonacci[]>(CARDS_FIBONACCI_VALUES)
   const [users, setUsers] = useState<User[]>(locationUser ? [{ userName: locationUser, message: '' }] : [])
   const getNewUser = (userName: string) => {
     setCurrentUser(userName)
+  }
+
+  const handleCardClick = (cardValue: string) => {
+    setCards(cards.map((c) => ({ ...c, isActive: c.value === cardValue })))
   }
 
   useEffect(() => {
@@ -66,8 +71,8 @@ const Room = () => {
       <article>
         <p className="mb-8">Choose your card</p>
         <div className="grid grid-cols-5 gap-4">
-          { CARDS_VALUES.map((card) => (
-            <HistoryPoint key={card} number={card} />
+          { cards.map((card) => (
+            <HistoryPoint key={card.value} number={card.value} isActive={card.isActive} handleCardClick={handleCardClick} />
           ))}
         </div>
       </article>

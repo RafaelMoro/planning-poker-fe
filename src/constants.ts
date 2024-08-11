@@ -1,3 +1,5 @@
+import { CardFibonacci } from "./interface"
+
 export const CONNECT_EVENT = 'connect'
 export const DISCONNECT_EVENT = 'disconnect'
 
@@ -14,3 +16,4 @@ export const SALUTE_EVENT = 'salute'
 export const MESSAGES_EVENT = 'messages'
 
 export const CARDS_VALUES = ['0', '1', '2', '3', '5', '8', '13', '21', '34', '55', '89', '?', '☕']
+export const CARDS_FIBONACCI_VALUES: CardFibonacci[] = CARDS_VALUES.map((value) => ({ value, isActive: false }))
