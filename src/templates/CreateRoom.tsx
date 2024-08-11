@@ -9,7 +9,7 @@ const CreateRoom = () => {
   }
 
   return (
-    <form>
+    <form className="grid grid-cols-1 gap-4 max-w-80">
       <input onChange={handleChangeName} type="text" placeholder="User Name" />
       <CreateRoomButton userName={newName} />
     </form>
