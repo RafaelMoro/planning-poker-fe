@@ -64,7 +64,7 @@ const Room = () => {
         </>
       )}
       <article>
-        <p>Choose your card</p>
+        <p className="mb-8">Choose your card</p>
         <div className="grid grid-cols-5 gap-4">
           { CARDS_VALUES.map((card) => (
             <HistoryPoint key={card} number={card} />
