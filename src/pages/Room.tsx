@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react"
 import { useLocation, useParams } from "react-router-dom"
-import { JoinRoom } from "../templates/JoinRoom"
-import { User } from "../interface"
-import { UserCard } from "../components/UserCard"
+
 import { socket } from "../socket"
-import { GET_USERS_ROOM, USERS_EVENT } from "../constants"
+import { User } from "../interface"
+import { CARDS_VALUES, GET_USERS_ROOM, USERS_EVENT } from "../constants"
+import { JoinRoom } from "../templates/JoinRoom"
+import { UserCard } from "../components/UserCard"
+import { HistoryPoint } from "../components/HistoryPoint"
 
 const Room = () => {
   const location = useLocation()
@@ -61,6 +63,14 @@ const Room = () => {
           ))}
         </>
       )}
+      <article>
+        <p>Choose your card</p>
+        <div className="grid grid-cols-5 gap-4">
+          { CARDS_VALUES.map((card) => (
+            <HistoryPoint key={card} number={card} />
+          ))}
+        </div>
+      </article>
     </div>
   )
 }

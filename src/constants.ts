@@ -12,3 +12,5 @@ export const RECEIVE_MESSAGE_EVENT = 'receive-message';
 
 export const SALUTE_EVENT = 'salute'
 export const MESSAGES_EVENT = 'messages'
+
+export const CARDS_VALUES = ['0', '1', '2', '3', '5', '8', '13', '21', '34', '55', '89', '?', '☕']
