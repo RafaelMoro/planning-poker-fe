@@ -21,8 +21,9 @@ const JoinRoom = ({ getNewUser }: JoinRoomProps) => {
   }
 
   return (
-    <form>
-      <input onChange={handleChangeName} type="text" placeholder="Enter your name" />
+    <form className="flex flex-col items-center justify-center gap-8">
+      <h1>Joining Room</h1>
+      <input className="p-2 rounded-xl" onChange={handleChangeName} type="text" placeholder="Enter your name" />
       <button onClick={handleJoinRoom}>Join Room</button>
     </form>
   )
