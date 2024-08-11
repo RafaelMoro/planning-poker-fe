@@ -13,6 +13,7 @@ const Room = () => {
   const { roomId } = useParams()
   const locationUser = location.state?.newUser
   const [currentUser, setCurrentUser] = useState<string>(locationUser ?? '')
+  const [showVotes, setShowVotes] = useState(false)
   const [cards, setCards] = useState<CardFibonacci[]>(CARDS_FIBONACCI_VALUES)
   const [users, setUsers] = useState<User[]>(locationUser ? [{ userName: locationUser, message: '', purpose: 'join-room' }] : [])
   const getNewUser = (userName: string) => {
@@ -42,7 +43,7 @@ const Room = () => {
       if (newUser?.purpose === 'vote') {
         const userUpdated: User[] = users.map((user) => {
           if (user.userName === newUser.userName) {
-            return { ...user, purpose: 'vote' }
+            return { ...user, purpose: 'vote', message: newUser.message }
           }
           return user
         })
@@ -80,9 +81,10 @@ const Room = () => {
       { (users.length > 0) && (
         <>
           <h2 className="mt-8">Users:</h2>
+          { users.length > 0 && (<button onClick={() => setShowVotes(true)}>Show votes</button>)}
           <div className="flex gap-8">
             { users.map((user, index) => (
-              <UserCard key={`${user.userName}-${index}`} user={user} />
+              <UserCard key={`${user.userName}-${index}`} user={user} showVote={showVotes} />
             ))}
           </div>
         </>
