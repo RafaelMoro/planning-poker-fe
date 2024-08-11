@@ -3,7 +3,7 @@ import { useLocation, useParams } from "react-router-dom"
 
 import { socket } from "../socket"
 import { CardFibonacci, User } from "../interface"
-import { CARDS_FIBONACCI_VALUES, GET_USERS_ROOM, USERS_EVENT } from "../constants"
+import { CARDS_FIBONACCI_VALUES, GET_USERS_ROOM, SEND_MESSAGE_EVENT, USERS_EVENT } from "../constants"
 import { JoinRoom } from "../templates/JoinRoom"
 import { UserCard } from "../components/UserCard"
 import { HistoryPoint } from "../components/HistoryPoint"
@@ -12,20 +12,27 @@ const Room = () => {
   const location = useLocation()
   const { roomId } = useParams()
   const locationUser = location.state?.newUser
-  const [currentUser, setCurrentUser] = useState(locationUser ?? '')
+  const [currentUser, setCurrentUser] = useState<string>(locationUser ?? '')
   const [cards, setCards] = useState<CardFibonacci[]>(CARDS_FIBONACCI_VALUES)
-  const [users, setUsers] = useState<User[]>(locationUser ? [{ userName: locationUser, message: '' }] : [])
+  const [users, setUsers] = useState<User[]>(locationUser ? [{ userName: locationUser, message: '', purpose: 'join-room' }] : [])
   const getNewUser = (userName: string) => {
     setCurrentUser(userName)
   }
 
   const handleCardClick = (cardValue: string) => {
+    if (roomId) {
+      const userUpdated: User = { userName: currentUser, message: cardValue, purpose: 'vote' }
+      const payload = { roomId, userName: userUpdated }
+      socket.emit(SEND_MESSAGE_EVENT, payload)
+      console.log('message sent', payload)
+    }
     setCards(cards.map((c) => ({ ...c, isActive: c.value === cardValue })))
   }
 
   useEffect(() => {
-    const handleJoinRoom = ({ newUser }: { newUser?: User}) => {
-      if (newUser) {
+    const handleRoomIdChannel = ({ newUser }: { newUser?: User}) => {
+      console.log(newUser)
+      if (newUser?.purpose === 'join-room') {
         const newUsers = [...users, newUser]
         // Update the rest of the users all the users that have joined
         socket.emit(GET_USERS_ROOM, { roomId, allUsers: newUsers })
@@ -41,12 +48,12 @@ const Room = () => {
     }
 
     if (roomId) {
-      socket.on(roomId, handleJoinRoom)
+      socket.on(roomId, handleRoomIdChannel)
       socket.on(USERS_EVENT, handleGetUsers)
     }
 
     return () => {
-      socket.off(roomId, handleJoinRoom)
+      socket.off(roomId, handleRoomIdChannel)
       socket.off(USERS_EVENT, handleGetUsers)
     }
   }, [roomId, users])
