@@ -31,12 +31,22 @@ const Room = () => {
 
   useEffect(() => {
     const handleRoomIdChannel = ({ newUser }: { newUser?: User}) => {
-      console.log(newUser)
       if (newUser?.purpose === 'join-room') {
         const newUsers = [...users, newUser]
         // Update the rest of the users all the users that have joined
         socket.emit(GET_USERS_ROOM, { roomId, allUsers: newUsers })
         setUsers(newUsers)
+      }
+
+      // If we receive a vote, update users state
+      if (newUser?.purpose === 'vote') {
+        const userUpdated: User[] = users.map((user) => {
+          if (user.userName === newUser.userName) {
+            return { ...user, purpose: 'vote' }
+          }
+          return user
+        })
+        setUsers(userUpdated)
       }
     }
 
