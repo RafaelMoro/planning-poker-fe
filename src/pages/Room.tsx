@@ -91,7 +91,7 @@ const Room = () => {
       )}
       <article>
         <p className="mb-8">Choose your card</p>
-        <div className="grid grid-cols-5 gap-4">
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 grid-cols-5 gap-4">
           { cards.map((card) => (
             <HistoryPoint key={card.value} number={card.value} isActive={card.isActive} handleCardClick={handleCardClick} />
           ))}
